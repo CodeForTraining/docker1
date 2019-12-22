@@ -1,0 +1,22 @@
+version: "3"
+services:
+  redis:
+    image: redis
+    volumes:
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - docker-practice-net
+  db:
+    image: postgres
+    volumes: .
+      - /data/postgres
+      - /data/dump
+      - /db-dump
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: school
+networks:
+  docker-practice-net:
+    driver: bridge
