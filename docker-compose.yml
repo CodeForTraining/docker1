@@ -2,21 +2,29 @@ version: "3"
 services:
   redis:
     image: redis
+    ports:
+    - 6379:6379
     volumes:
+      - ./redis
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     networks:
       - docker-practice-net
   db:
     image: postgres
-    volumes: .
-      - /data/postgres
-      - /data/dump
-      - /db-dump
+    container_name: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data/postgres
     environment:
-      POSTGRES_DB: postgres
+      POSTGRES_DB: school
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: school
+      PGDATA: /data/dump
+    restart: always
+    networks:
+      - docker-practice-net
 networks:
   docker-practice-net:
     driver: bridge
